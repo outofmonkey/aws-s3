@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "mys3bucket" {
-  bucket = "mybuckets3bucket1001"
+  bucket = "mybuckets3bucket101"
 
   tags = {
     Name        = "My bucket"
@@ -24,4 +24,5 @@ resource "aws_s3_object" "object" {
   etag = filemd5("${path.module}/install-web.sh")
     storage_class = "STANDARD"
 }
+
 
