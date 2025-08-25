@@ -1,0 +1,39 @@
+# .github/workflows/terraform-destroy.yml
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  terraform-destroy:
+    name: Terraform Destroy
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install unzip (required by Terraform setup)
+        run: sudo apt-get update && sudo apt-get install unzip -y
+
+      - name: Install Node and NPM
+        uses: actions/setup-node@v1
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: latest
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Destroy
+        run: terraform destroy --auto-approve
