@@ -19,8 +19,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Install unzip (required by Terraform setup)
+        run: sudo apt-get update && sudo apt-get install unzip -y
+
+      - name: install node and npm
+        uses: actions/setup-node@v1
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
+        with:
+              terraform_version: latest
 
       - name: Terraform Init
         run: terraform init
